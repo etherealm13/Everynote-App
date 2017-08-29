@@ -9,12 +9,12 @@ import reducers from './reducers';
 class App extends Component {
   componentWillMount() {
     const config = {
-      apiKey: 'AIzaSyAagI1ba1Q5bD7QQjmToL5fFcqgJkMatP4',
-      authDomain: 'manager-3d17a.firebaseapp.com',
-      databaseURL: 'https://manager-3d17a.firebaseio.com',
-      projectId: 'manager-3d17a',
-      storageBucket: 'manager-3d17a.appspot.com',
-      messagingSenderId: '605106866005'
+      apiKey: 'AIzaSyAZGghgaxoX5vN_YCjMjVi5IMEfam1as1o',
+      authDomain: 'everynote-1e6a4.firebaseapp.com',
+      databaseURL: 'https://everynote-1e6a4.firebaseio.com',
+      projectId: 'everynote-1e6a4',
+      storageBucket: 'everynote-1e6a4.appspot.com',
+      messagingSenderId: '631530737487'
     };
     firebase.initializeApp(config);
   }
