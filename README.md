@@ -1,1 +1,2 @@
-An Android App for storing Notes. The web app for the same can be found here: https://everynote-1e6a4.firebaseapp.com
+# everynote-app
+An Android app for note taking using react native, firebase
