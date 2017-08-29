@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import AuthReducer from './authReducer';
-import EmployeeFormReducer from './employeeFormReducer';
-import EmployeeReducer from './employeeReducer';
+import PostReducer from './postReducer';
 
-export default combineReducers({
+const rootReducer = combineReducers({
   auth: AuthReducer,
-  employeeForm: EmployeeFormReducer,
-  employees: EmployeeReducer
+  post: PostReducer
 });
+
+export default rootReducer;

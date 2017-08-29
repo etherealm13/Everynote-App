@@ -27,12 +27,12 @@ const styles = {
   buttonStyle: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#007aff',
+    backgroundColor: '#009688',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#333',
-    marginLeft: 5,
-    marginRight: 5
+    marginLeft: 0,
+    marginRight: 0
   }
 }
 export { Button };
