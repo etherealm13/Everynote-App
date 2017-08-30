@@ -1,8 +1,9 @@
 import React from 'react';
-import { Scene, Router, Actions } from 'react-native-router-flux';
+import { Scene, Router } from 'react-native-router-flux';
 import LoginForm from './components/loginForm';
 import Home from './components/home';
-import ListItem from './components/listItem';
+import PostList from './components/postList';
+import PostDetails from './components/postDetails';
 
 const RouterComponent = () => {
   return (
@@ -23,8 +24,14 @@ const RouterComponent = () => {
         <Scene
           sceneStyle={{ paddingTop: 50 }}
           key="posts"
-          component={ListItem}
+          component={PostList}
           title="Posts"
+        />
+        <Scene
+          sceneStyle={{ paddingTop: 50 }}
+          key="postDetails"
+          component={PostDetails}
+          title="View Post"
         />
         <Scene
           key="home"

@@ -97,7 +97,6 @@ export function addNoteFail(dispatch, error) {
 
 export function fetchPosts() {
   const { currentUser } = firebase.auth();
-  console.log('auth user', currentUser);
   return (dispatch) => {
     dispatch({ type: FETCH_POSTS });
     return firebase.database().ref(`/users/${currentUser.uid}/posts`)
