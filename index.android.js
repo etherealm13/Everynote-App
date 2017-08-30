@@ -9,4 +9,4 @@ import {
 } from 'react-native';
 import App from './src/app';
 
-AppRegistry.registerComponent('manager', () => App);
+AppRegistry.registerComponent('everynote', () => App);
