@@ -52,7 +52,6 @@ export default (state = INITIAL_STATE, action) => {
     case FETCH_POSTS:
       return { ...state, loading: true };
     case FETCH_POSTS_SUCCESS:
-      console.log(action.payload);
       return { ...state, ...INITIAL_STATE, posts: action.payload };
     case GET_POST_DETAILS:
       return { ...state, postDetail: action.payload };
