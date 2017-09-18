@@ -4,6 +4,7 @@ import LoginForm from './components/loginForm';
 import Home from './components/home';
 import PostList from './components/postList';
 import PostDetails from './components/postDetails';
+import AddNoteForm from './components/addNoteForm';
 
 const RouterComponent = () => {
   return (
@@ -34,9 +35,14 @@ const RouterComponent = () => {
           title="View Post"
         />
         <Scene
-          key="home"
+          key="homePage"
           component={Home}
-          hideNavBar
+          title="Add Note"
+        />
+        <Scene
+          key="addNote"
+          component={AddNoteForm}
+          title="Add Note"
         />
       </Scene>
     </Router>

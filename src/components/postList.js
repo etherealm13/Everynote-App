@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { View, ListView } from 'react-native';
 import ListItem from './listItem';
 import { fetchPosts } from '../actions';
-import { Spinner } from './common';
+import { Spinner, AddNoteFab } from './common';
 
 class PostList extends Component {
   componentWillMount() {
@@ -46,6 +46,7 @@ class PostList extends Component {
     return (
       <View style={styles.viewStyle}>
         {this.renderView()}
+        <AddNoteFab />
       </View>
     );
   }

@@ -34,5 +34,5 @@ const styles = {
     marginLeft: 0,
     marginRight: 0
   }
-}
+};
 export { Button };

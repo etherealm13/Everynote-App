@@ -18,10 +18,11 @@ import {
 
 export function checkAuth() {
   return (dispatch) => {
+    dispatch({ type: LOGIN_USER });
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         dispatch({ type: USER_LOGGED_IN, payload: user });
-        Actions.home();
+        Actions.main();
       } else {
         dispatch({ type: USER_LOGGED_OUT });
       }
