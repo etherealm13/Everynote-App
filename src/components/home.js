@@ -1,11 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { checkAuth } from '../actions/index';
 
 class Home extends React.Component {
   componentWillMount() {
-    this.props.checkAuth();
+    // this.props.checkAuth();
   }
   render() {
     return (
@@ -20,7 +18,7 @@ class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#fcfce6',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -31,6 +29,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null,
-  { checkAuth }
-)(Home);
+export default Home;

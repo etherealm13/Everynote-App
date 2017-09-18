@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
-import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { emailChanged, checkAuth, passwordChanged, loginUser } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
 class LoginForm extends Component {
+  componentWillMount() {
+    this.props.checkAuth();
+  }
+
   onEmailChange(text) {
     this.props.emailChanged(text);
   }
@@ -74,7 +78,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    backgroundColor: '#ecf0f1'
+    backgroundColor: '#fcfce6'
   },
   buttonCardStyle: {
     borderBottomWidth: 0,
@@ -88,7 +92,7 @@ const styles = {
   loginCardStyle: {
     // flex: 1,
     paddingBottom: 0,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#fcfce6',
     padding: 0,
     marginLeft: 5,
     marginRight: 5,
@@ -111,5 +115,5 @@ const mapStateToProps = ({ auth }) => {
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser
+  emailChanged, passwordChanged, loginUser, checkAuth
 })(LoginForm);

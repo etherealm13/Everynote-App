@@ -51,19 +51,20 @@ export function descriptionChanged(text) {
 
 export function addNote(title, description) {
   const { currentUser } = firebase.auth();
-
+  console.log(currentUser, title, description);
   return (dispatch) => {
     dispatch({ type: ADD_NOTE });
     return firebase.database().ref(`/users/${currentUser.uid}/posts`)
     .push({ title, description })
     .then(() => {
+      console.log('inside promise');
       dispatch({ type: ADD_NOTE_SUCCESS });
-      fetchPosts();
+      Actions.posts();
       // browserHistory.push('/posts');
-    })
-    .catch((error) => {
-      return addNoteFail(dispatch, error.message);
     });
+    // .catch((error) => {
+    //   return addNoteFail(dispatch, error.message);
+    // });
   };
 }
 
