@@ -51,20 +51,14 @@ export function descriptionChanged(text) {
 
 export function addNote(title, description) {
   const { currentUser } = firebase.auth();
-  console.log(currentUser, title, description);
   return (dispatch) => {
     dispatch({ type: ADD_NOTE });
     return firebase.database().ref(`/users/${currentUser.uid}/posts`)
     .push({ title, description })
     .then(() => {
-      console.log('inside promise');
       dispatch({ type: ADD_NOTE_SUCCESS });
       Actions.posts();
-      // browserHistory.push('/posts');
     });
-    // .catch((error) => {
-    //   return addNoteFail(dispatch, error.message);
-    // });
   };
 }
 
@@ -133,14 +127,15 @@ export function cancelEdit(post) {
   };
 }
 
+// DELETE NOTE
 
 export function deleteNote(id) {
   const user = firebase.auth().currentUser;
-  return (dispatch) => {
+  return () => {
     firebase.database().ref(`users/${user.uid}/posts/`).child(id).remove()
     .then(() => {
         fetchPosts();
-        // browserHistory.push('/posts');
+        Actions.posts();
       });
   };
 }
