@@ -1,20 +1,41 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 // import { Actions } from 'react-native-router-flux';
-import { Card } from './common';
+import { Card, Button } from './common';
+import {
+  deleteNote,
+  editNote,
+  titleUpdated,
+  getPostDetails,
+  descriptionUpdated,
+  updateNote,
+  showModal,
+  resetForm
+} from '../actions/index';
 
 class PostDetails extends Component {
   render() {
-    const { title, description } = this.props.post;
+    const { title, description, uid, dateStamp } = this.props.post;
     return (
       <ScrollView>
         <Card style={styles.cardStyle}>
+        <Button onPress={() => this.props.editNote(this.props.post)}>
+          Edit
+        </Button>
+        <Button onPress={() => this.props.deleteNote(uid)}>
+          Delete
+        </Button>
+        </Card>
+        <Card style={styles.cardStyle}>
           <View>
             <Text style={styles.titleStyle}>
-            {title}
+              {title}
+            </Text>
+            <Text>
+              {dateStamp}
             </Text>
           </View>
-
           <View>
              <Text style={styles.descriptionStyle}>
              {description}
@@ -48,4 +69,34 @@ const styles = {
     color: '#343535'
   }
 };
-export default PostDetails;
+
+export default connect(null, {
+  deleteNote,
+  editNote,
+  titleUpdated,
+  getPostDetails,
+  descriptionUpdated,
+  updateNote,
+  showModal,
+  resetForm })(PostDetails);
+
+
+  // function mapStateToProps(state) {
+  // // console.log('state', state);
+  //   if (state.post.postDetail != null) {
+  //     // const { title, description, dateStamp, uid } = state.post.postDetail;
+  //     return {
+  //       post: state.post.postDetail,
+  //       loading: state.post.loading,
+  //       modal: state.modal,
+  //       editing: state.post.editing,
+  //       uid: state.post.postId,
+  //       number: state.post.postNumber };
+  //   }
+  //   return {
+  //     post: state.post,
+  //     loading: state.post.loading,
+  //     modalShow: state.modal.modalShow,
+  //     editing: state.post.editing,
+  //     uid: state.post.postId };
+  // }
