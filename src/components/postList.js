@@ -15,12 +15,15 @@ class PostList extends Component {
     this.createDataSource(nextProps);
   }
 
+
   createDataSource({ posts }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-
-    this.dataSource = ds.cloneWithRows(posts);
+    const sortedPosts = posts.sort((a, b) => {
+        return new Date(b.dateStamp) - new Date(a.dateStamp)
+    });
+    this.dataSource = ds.cloneWithRows(sortedPosts);
   }
 
   renderView() {
