@@ -53,8 +53,9 @@ export function addNote(title, description) {
   const { currentUser } = firebase.auth();
   return (dispatch) => {
     dispatch({ type: ADD_NOTE });
+    const dateStamp = new Date().toString();
     return firebase.database().ref(`/users/${currentUser.uid}/posts`)
-    .push({ title, description })
+    .push({ title, description, dateStamp })
     .then(() => {
       dispatch({ type: ADD_NOTE_SUCCESS });
       Actions.posts();
@@ -64,13 +65,16 @@ export function addNote(title, description) {
 
 export function updateNote(post) {
   const { currentUser } = firebase.auth();
+  const dateStamp = new Date().toString();
 
   return (dispatch) => {
     dispatch({ type: UPDATE_NOTE });
     return firebase.database().ref(`/users/${currentUser.uid}/posts/${post.uid}`)
     .set({
       title: post.title,
-      description: post.description })
+      description: post.description,
+      dateStamp
+     })
     .then(() => {
       dispatch({ type: UPDATE_NOTE_SUCCESS, payload: post });
       // fetchPosts();
