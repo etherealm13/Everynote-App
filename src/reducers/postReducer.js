@@ -16,7 +16,9 @@ import {
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
   GET_POST_DETAILS,
-  FORM_RESET
+  FORM_RESET,
+  FORM_FIELD_UPDATE,
+  FORM_FIELD_EDITED
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -35,6 +37,13 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FORM_RESET:
       return { ...INITIAL_STATE };
+    case FORM_FIELD_UPDATE:
+      return { ...state, [action.payload.prop]: action.payload.value };
+    case FORM_FIELD_EDITED:
+        return { ...state,
+          postDetail: { ...state.postDetail,
+          [action.payload.prop]: action.payload.value }
+        };
     case TITLE_CHANGED:
       return { ...state, title: action.payload };
     case DESCRIPTION_CHANGED:
