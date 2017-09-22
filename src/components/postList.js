@@ -20,7 +20,7 @@ class PostList extends Component {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-    const sortedPosts = posts.sort((a, b) => {
+    let sortedPosts = posts.sort((a, b) => {
         return new Date(b.dateStamp) - new Date(a.dateStamp)
     });
     this.dataSource = ds.cloneWithRows(sortedPosts);

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const Header = (props) => {
+const Header = () => {
   const { viewStyle, textStyle } = styles;
   return (
     <View style={viewStyle}>
-      <Text style={textStyle}>{props.headerText}</Text>
+      <Text style={textStyle}>Header</Text>
     </View>
   );
 };
@@ -14,7 +14,7 @@ const styles = {
     shadowColor: '#ccc',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#ffcccc',
     padding: 5,
     height: 60,
     elevation: 2,

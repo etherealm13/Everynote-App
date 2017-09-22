@@ -5,6 +5,7 @@ import Home from './components/home';
 import PostList from './components/postList';
 import PostDetails from './components/postDetails';
 import AddNoteForm from './components/addNoteForm';
+import EditNoteForm from './components/editNoteForm';
 
 const RouterComponent = () => {
   return (
@@ -43,6 +44,11 @@ const RouterComponent = () => {
           key="addNote"
           component={AddNoteForm}
           title="Add Note"
+        />
+        <Scene
+          key="editNote"
+          component={EditNoteForm}
+          title="Edit Note"
         />
       </Scene>
     </Router>

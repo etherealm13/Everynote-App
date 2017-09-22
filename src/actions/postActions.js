@@ -17,37 +17,25 @@ import {
   UPDATE_NOTE,
   UPDATE_NOTE_SUCCESS,
   CANCEL_EDIT,
-  DELETE_NOTE
+  DELETE_NOTE,
+  FORM_FIELD_UPDATE,
+  FORM_FIELD_EDITED
 } from './types';
 
-export function titleChanged(text) {
-  return {
-    type: TITLE_CHANGED,
-    payload: text
-  };
-}
 
-
-export function titleUpdated(text) {
+export const postInputChanged = ({ prop, value }) => {
   return {
-    type: TITLE_UPDATED,
-    payload: text
+    type: FORM_FIELD_UPDATE,
+    payload: { prop, value }
   };
-}
+};
 
-export function descriptionUpdated(text) {
+export const postInputEdited = ({ prop, value }) => {
   return {
-    type: DESCRIPTION_UPDATED,
-    payload: text
+    type: FORM_FIELD_EDITED,
+    payload: { prop, value }
   };
-}
-
-export function descriptionChanged(text) {
-  return {
-    type: DESCRIPTION_CHANGED,
-    payload: text
-  };
-}
+};
 
 export function addNote(title, description) {
   const { currentUser } = firebase.auth();
@@ -63,26 +51,21 @@ export function addNote(title, description) {
   };
 }
 
-export function updateNote(post) {
+export function updateNote(title, description, uid) {
   const { currentUser } = firebase.auth();
   const dateStamp = new Date().toString();
 
   return (dispatch) => {
     dispatch({ type: UPDATE_NOTE });
-    return firebase.database().ref(`/users/${currentUser.uid}/posts/${post.uid}`)
+    return firebase.database().ref(`/users/${currentUser.uid}/posts/${uid}`)
     .set({
-      title: post.title,
-      description: post.description,
+      title,
+      description,
       dateStamp
      })
     .then(() => {
-      dispatch({ type: UPDATE_NOTE_SUCCESS, payload: post });
-      // fetchPosts();
-      // browserHistory.push('/posts');
-    })
-    // .catch((error) => {
-    //   return addNoteFail(dispatch, error.message);
-    // });
+      dispatch({ type: UPDATE_NOTE_SUCCESS, payload: { title, description, uid } });
+    });
   };
 }
 
@@ -119,6 +102,7 @@ export function editNote(post) {
       type: EDIT_IN_PROGRESS,
       payload: post
     });
+      Actions.editNote();
   };
 }
 

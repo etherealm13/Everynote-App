@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
-import { postInputChanged, addNote, showModal, resetForm } from '../actions/index';
+import { Actions } from 'react-native-router-flux';
+import { postInputEdited, updateNote, showModal, resetForm } from '../actions/index';
 import { Card, CardSection, Input, Button } from './common';
 
-class AddNoteForm extends Component {
+class EditNoteForm extends Component {
+
   onTitleChange(value) {
-    this.props.postInputChanged({ prop: 'title', value });
+    this.props.postInputEdited({ prop: 'title', value });
   }
 
   onDescriptionChange(value) {
-    this.props.postInputChanged({ prop: 'description', value });
+    this.props.postInputEdited({ prop: 'description', value });
   }
 
   handleFormSubmit() {
     if (this.props.title !== '' && this.props.description !== '') {
-      this.props.addNote(this.props.title, this.props.description);
+      this.props.updateNote(this.props.title, this.props.description, this.props.uid)
+      .then(() => {
+        Actions.postDetails({ post: this.props.post });
+      });
     }
   }
 
@@ -32,7 +37,7 @@ class AddNoteForm extends Component {
               <Input
                 label="Title"
                 placeholder="Title"
-                onChangeText={value => this.props.postInputChanged({ prop: 'title', value })}
+                onChangeText={value => this.props.postInputEdited({ prop: 'title', value })}
                 value={this.props.title}
               />
             </CardSection>
@@ -41,14 +46,14 @@ class AddNoteForm extends Component {
               <Input
                 label="Description"
                 placeholder="description"
-                onChangeText={value => this.props.postInputChanged({ prop: 'description', value })}
+                onChangeText={value => this.props.postInputEdited({ prop: 'description', value })}
                 value={this.props.description}
               />
             </CardSection>
 
             <CardSection style={styles.buttonCardStyle} >
               <Button onPress={this.handleFormSubmit.bind(this)}>
-                Add Note
+                Edit Note
               </Button>
             </CardSection>
           </Card>
@@ -107,15 +112,19 @@ const styles = {
 
 
 function mapStateToProps(state) {
-  const { title, category, description } = state.post;
+  // const { title, category, description, uid } = state.post.postDetail;
   return {
-    title, category, description
+    title: state.post.postDetail.title,
+    category: state.post.postDetail.category,
+    description: state.post.postDetail.description,
+    uid: state.post.postDetail.uid,
+    post: state.post.postDetail
   };
 }
 
 export default connect(mapStateToProps, {
-   postInputChanged,
-   addNote,
+   postInputEdited,
+   updateNote,
    showModal,
    resetForm
-})(AddNoteForm);
+})(EditNoteForm);
