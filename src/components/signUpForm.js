@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
-import { emailChanged, checkAuth, passwordChanged, loginUser } from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { emailChanged, passwordChanged, signUpUser } from '../actions';
+import { Card, CardSection, Input, Button } from './common';
 
-class LoginForm extends Component {
-  componentWillMount() {
-    this.props.checkAuth();
-  }
+class SignUpForm extends Component {
 
   onEmailChange(text) {
     this.props.emailChanged(text);
@@ -18,25 +14,13 @@ class LoginForm extends Component {
   }
   onButtonPress() {
     const { email, password } = this.props;
-    this.props.loginUser({ email, password });
+    this.props.signUpUser({ email, password });
   }
-  signupHandler() {
-    Actions.signup();
-    // this.props.loginUser({ email, password });
-  }
-  forgotPasswordHandler() {
-    console.log('forgot password');
-    // this.props.loginUser({ email, password });
-  }
-
 
   renderButton() {
-    if (this.props.loading) {
-      return < Spinner size="large" />;
-    }
     return (
       <Button style={styles.customButtonStyle} onPress={this.onButtonPress.bind(this)}>
-        Login
+        Signup
       </Button>
     );
   }
@@ -69,23 +53,6 @@ class LoginForm extends Component {
             </CardSection>
             <CardSection>
               {this.renderButton()}
-            </CardSection>
-
-            <CardSection>
-              <Button
-              customButtonStyle={styles.customButtonStyle}
-              customTextStyle={styles.customTextStyle}
-              onPress={this.signupHandler.bind(this)}
-              >
-                Signup
-              </Button>
-              <Button
-              customButtonStyle={styles.customButtonStyle}
-              customTextStyle={styles.customTextStyle}
-              onPress={this.forgotPasswordHandler.bind(this)}
-              >
-                Forgot Password ?
-              </Button>
             </CardSection>
 
             <Text style={styles.errorTextStyle}>
@@ -150,5 +117,23 @@ const mapStateToProps = ({ auth }) => {
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser, checkAuth
-})(LoginForm);
+  emailChanged, passwordChanged, signUpUser
+})(SignUpForm);
+
+
+// <CardSection>
+//   <Button
+//   customButtonStyle={styles.customButtonStyle}
+//   customTextStyle={styles.customTextStyle}
+//   onPress={this.signupHandler.bind(this)}
+//   >
+//     Signup
+//   </Button>
+//   <Button
+//   customButtonStyle={styles.customButtonStyle}
+//   customTextStyle={styles.customTextStyle}
+//   onPress={this.forgotPasswordHandler.bind(this)}
+//   >
+//     Forgot Password ?
+//   </Button>
+// </CardSection>

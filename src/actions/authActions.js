@@ -24,7 +24,7 @@ export function checkAuth() {
         dispatch({ type: USER_LOGGED_IN, payload: user });
         Actions.main();
       } else {
-        dispatch({ type: USER_LOGGED_OUT });
+        return logoutUserSuccess(dispatch);
       }
     });
   };
@@ -119,7 +119,7 @@ export function logoutUserSuccess(dispatch) {
   dispatch({
     type: LOGOUT_USER_SUCCESS
   });
-  Actions.login();
+  Actions.auth();
 }
 
 

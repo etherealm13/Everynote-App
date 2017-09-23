@@ -52,9 +52,9 @@ export default (state = INITIAL_STATE, action) => {
     case USER_LOGGED_IN:
       return { ...state, authenticated: true, user: action.payload };
     case USER_LOGGED_OUT:
-      return { ...state, authenticated: false };
-    case LOGOUT_USER_SUCCESS:
       return { ...state, authenticated: false, user: null };
+    case LOGOUT_USER_SUCCESS:
+      return { ...state, authenticated: false, user: null, loading: false };
     case LOGOUT_USER_FAIL:
       return { ...state };
     default:
