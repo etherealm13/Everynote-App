@@ -20,7 +20,9 @@ class PostDetails extends Component {
     return (
       <ScrollView>
         <Card style={styles.cardStyle}>
-        <Button onPress={() => this.props.editNote(this.props.post)}>
+        <Button
+        style={styles.customButtonStyle}
+        onPress={() => this.props.editNote(this.props.post)}>
           Edit
         </Button>
         <Button onPress={() => this.props.deleteNote(uid)}>
@@ -67,6 +69,10 @@ const styles = {
     padding: 10,
     lineHeight: 30,
     color: '#343535'
+  },
+  customButtonStyle: {
+    borderBottomWidth: 0,
+    backgroundColor: '#eee'
   }
 };
 

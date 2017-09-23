@@ -53,7 +53,7 @@ class EditNoteForm extends Component {
 
             <CardSection style={styles.buttonCardStyle} >
               <Button onPress={this.handleFormSubmit.bind(this)}>
-                Edit Note
+                Update Note
               </Button>
             </CardSection>
           </Card>
