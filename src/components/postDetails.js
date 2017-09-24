@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 // import { Actions } from 'react-native-router-flux';
-import { Card, Button } from './common';
+import { Card, Button, Confirm } from './common';
 import {
   deleteNote,
   editNote,
@@ -15,6 +15,14 @@ import {
 } from '../actions/index';
 
 class PostDetails extends Component {
+  state = { showModal: false };
+  onDecline() {
+    this.setState({ showModal: false });
+  }
+  onAccept() {
+    console.log('Accepted');
+  }
+
   render() {
     const { title, description, uid, dateStamp } = this.props.post;
     return (
@@ -22,11 +30,16 @@ class PostDetails extends Component {
         <Card style={styles.cardStyle}>
         <Button
         style={styles.customButtonStyle}
-        onPress={() => this.props.editNote(this.props.post)}>
+        onPress={() => this.props.editNote(this.props.post)}
+        >
           Edit
         </Button>
         <Button onPress={() => this.props.deleteNote(uid)}>
           Delete
+        </Button>
+        <Button
+          onPress={() => this.setState({ showModal: true })}
+        > Modal
         </Button>
         </Card>
         <Card style={styles.cardStyle}>
@@ -44,6 +57,15 @@ class PostDetails extends Component {
             </Text>
           </View>
         </Card>
+
+        <Confirm
+          visible={this.state.showModal}
+          onAccept={this.onAccept.bind(this)}
+          onDecline={this.onDecline.bind(this)}
+        >
+          Delete this employee ?
+        </Confirm>
+
       </ScrollView>
     );
   }
