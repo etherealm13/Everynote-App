@@ -20,11 +20,12 @@ class PostDetails extends Component {
     this.setState({ showModal: false });
   }
   onAccept() {
-    console.log('Accepted');
+    this.props.deleteNote(this.props.post.uid);
+    this.setState({ showModal: false });
   }
 
   render() {
-    const { title, description, uid, dateStamp } = this.props.post;
+    const { title, description, dateStamp } = this.props.post;
     return (
       <ScrollView>
         <Card style={styles.cardStyle}>
@@ -34,12 +35,8 @@ class PostDetails extends Component {
         >
           Edit
         </Button>
-        <Button onPress={() => this.props.deleteNote(uid)}>
+        <Button onPress={() => this.setState({ showModal: true })}>
           Delete
-        </Button>
-        <Button
-          onPress={() => this.setState({ showModal: true })}
-        > Modal
         </Button>
         </Card>
         <Card style={styles.cardStyle}>
@@ -63,7 +60,7 @@ class PostDetails extends Component {
           onAccept={this.onAccept.bind(this)}
           onDecline={this.onDecline.bind(this)}
         >
-          Delete this employee ?
+          Delete this note ?
         </Confirm>
 
       </ScrollView>

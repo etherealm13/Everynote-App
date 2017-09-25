@@ -8,13 +8,13 @@ import { Spinner, AddNoteFab } from './common';
 
 class PostList extends Component {
   componentWillMount() {
+    console.log('componentWillMount');
     this.props.fetchPosts();
     this.createDataSource(this.props);
   }
   componentWillReceiveProps(nextProps) {
     this.createDataSource(nextProps);
   }
-
 
   createDataSource({ posts }) {
     const ds = new ListView.DataSource({

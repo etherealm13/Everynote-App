@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import { postInputChanged, addNote, showModal, resetForm } from '../actions/index';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Input, Button, Confirm } from './common';
 
 class AddNoteForm extends Component {
+  state = { showModal: false };
   onTitleChange(value) {
     this.props.postInputChanged({ prop: 'title', value });
   }
@@ -12,6 +13,14 @@ class AddNoteForm extends Component {
   onDescriptionChange(value) {
     this.props.postInputChanged({ prop: 'description', value });
   }
+
+  onDecline() {
+    this.setState({ showModal: true });
+  }
+  onAccept() {
+    this.setState({ showModal: false });
+  }
+
 
   handleFormSubmit() {
     if (this.props.title !== '' && this.props.description !== '') {
@@ -50,9 +59,20 @@ class AddNoteForm extends Component {
               <Button onPress={this.handleFormSubmit.bind(this)}>
                 Add Note
               </Button>
+              <Button onPress={() => this.setState({ showModal: true })}>
+                Cancel
+              </Button>
             </CardSection>
           </Card>
         </View>
+        <Confirm
+          visible={this.state.showModal}
+          onAccept={this.onAccept.bind(this)}
+          onDecline={this.onDecline.bind(this)}
+        >
+          Do you want to cancel ?
+          All unsaved data will be lost.
+        </Confirm>
       </View>
     );
   }

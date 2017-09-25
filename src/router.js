@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+// import { Text, TouchableOpacity } from 'react-native';
 import { Actions, Scene, Router } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { logoutUser } from './actions/index';
@@ -50,6 +50,7 @@ class RouterComponent extends Component {
           key="postDetails"
           component={PostDetails}
           title="View Post"
+          leftTitle="EveryNote"
           onRight={() => this.logoutHandler()}
           rightTitle="Logout"
         />
@@ -62,6 +63,7 @@ class RouterComponent extends Component {
           key="addNote"
           component={AddNoteForm}
           title="Add Note"
+          leftTitle="EveryNote"
           onRight={() => this.logoutHandler()}
           rightTitle="Logout"
           sceneStyle={styles.bodyStyle}
@@ -75,6 +77,7 @@ class RouterComponent extends Component {
           key="editNote"
           component={EditNoteForm}
           title="Edit Note"
+          leftTitle="EveryNote"
           onRight={() => this.logoutHandler()}
           rightTitle="Logout"
         />
@@ -100,6 +103,6 @@ const styles = {
     paddingTop: 50
   }
 
-}
+};
 
 export default connect(null, { logoutUser })(RouterComponent);
