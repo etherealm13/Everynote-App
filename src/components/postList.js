@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { View, ListView } from 'react-native';
+import { View, ListView, RefreshControl } from 'react-native';
 import ListItem from './listItem';
 import { fetchPosts } from '../actions';
 import { Spinner, AddNoteFab } from './common';
 
 class PostList extends Component {
+  state = {
+      refreshing: false
+  };
+
   componentWillMount() {
-    console.log('componentWillMount');
     this.props.fetchPosts();
     this.createDataSource(this.props);
   }
   componentWillReceiveProps(nextProps) {
     this.createDataSource(nextProps);
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.props.fetchPosts();
+    this.setState({ refreshing: false });
   }
 
   createDataSource({ posts }) {
@@ -32,6 +41,12 @@ class PostList extends Component {
     }
     return (
       <ListView
+        refreshControl={
+         <RefreshControl
+           refreshing={this.state.refreshing}
+           onRefresh={this.onRefresh.bind(this)}
+         />
+       }
         enableEmptySections
         dataSource={this.dataSource}
         renderRow={this.renderRow}
