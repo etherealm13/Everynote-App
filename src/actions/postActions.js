@@ -1,23 +1,16 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import {
-  TITLE_CHANGED,
-  TITLE_UPDATED,
-  DESCRIPTION_CHANGED,
-  DESCRIPTION_UPDATED,
   ADD_NOTE,
   ADD_NOTE_SUCCESS,
   ADD_NOTE_FAIL,
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
   GET_POST_DETAILS,
-  EDIT_NOTE,
   EDIT_IN_PROGRESS,
-  EDIT_NOTE_SUCCESS,
   UPDATE_NOTE,
   UPDATE_NOTE_SUCCESS,
   CANCEL_EDIT,
-  DELETE_NOTE,
   FORM_FIELD_UPDATE,
   FORM_FIELD_EDITED
 } from './types';
@@ -37,7 +30,7 @@ export const postInputEdited = ({ prop, value }) => {
   };
 };
 
-export function addNote(title, description) {
+export function addNote(title, description, navigate) {
   const { currentUser } = firebase.auth();
   return (dispatch) => {
     dispatch({ type: ADD_NOTE });
@@ -46,7 +39,7 @@ export function addNote(title, description) {
     .push({ title, description, dateStamp })
     .then(() => {
       dispatch({ type: ADD_NOTE_SUCCESS });
-      Actions.posts();
+      navigate('list');
     });
   };
 }
@@ -96,13 +89,13 @@ export function getPostDetails(post) {
 }
 
 
-export function editNote(post) {
+export function editNote(post, navigate) {
   return (dispatch) => {
     dispatch({
       type: EDIT_IN_PROGRESS,
       payload: post
     });
-      Actions.editNote();
+    navigate('edit');
   };
 }
 
@@ -117,13 +110,13 @@ export function cancelEdit(post) {
 
 // DELETE NOTE
 
-export function deleteNote(id) {
+export function deleteNote(id, navigate) {
   const user = firebase.auth().currentUser;
   return () => {
     firebase.database().ref(`users/${user.uid}/posts/`).child(id).remove()
     .then(() => {
         fetchPosts();
-        Actions.posts();
+        navigate('list')
       });
   };
 }

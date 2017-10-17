@@ -6,6 +6,8 @@ import ReduxThunk from 'redux-thunk';
 import Router from './router';
 import reducers from './reducers';
 
+
+
 class App extends Component {
   componentWillMount() {
     const config = {

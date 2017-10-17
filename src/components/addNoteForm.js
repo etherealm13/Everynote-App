@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import { postInputChanged, addNote, showModal, resetForm } from '../actions/index';
 import { Card, CardSection, Input, Button, Confirm } from './common';
 
 class AddNoteForm extends Component {
-  state = { showModal: false };
-  onTitleChange(value) {
-    this.props.postInputChanged({ prop: 'title', value });
+  state = { showModal: false,
+            behavior: 'padding' 
+      // there is three ways to adjust (position , height , padding ) 
   }
 
-  onDescriptionChange(value) {
-    this.props.postInputChanged({ prop: 'description', value });
+  componentWillMount(){
+    
   }
 
   onDecline() {
@@ -30,31 +30,38 @@ class AddNoteForm extends Component {
 
   render() {
     return (
-      <View style={styles.bodyStyle}>
-        <View style={styles.loginCardStyle}>
-          <Text style={styles.logoStyle}>EveryNote
-          </Text>
-        </View>
+      <View style={styles.bodyStyle} >
         <View style={styles.loginCardStyle}>
           <Card>
+            <KeyboardAvoidingView behavior={this.state.behavior}>
             <CardSection style={styles.titleCardStyle}>
               <Input
-                label="Title"
-                placeholder="Title"
+                placeholder="Enter Title Here"
+                underlineColorAndroid={'transparent'}
                 onChangeText={value => this.props.postInputChanged({ prop: 'title', value })}
                 value={this.props.title}
+                style={styles.inputStyle}
               />
             </CardSection>
-
+            </KeyboardAvoidingView>
             <CardSection style={styles.DescriptionCardStyle}>
-              <Input
-                label="Description"
-                placeholder="description"
+              <TextInput
+                style={styles.DescriptionInputStyle}
+                multiline={true}
+                maxHeight={300}
+                autogrow={true}
+                underlineColorAndroid={'transparent'}
+                numberOfLines={4}
+                textAlignVertical={'top'}
+                placeholder="Enter Description Here"
                 onChangeText={value => this.props.postInputChanged({ prop: 'description', value })}
                 value={this.props.description}
               />
             </CardSection>
-
+          </Card>
+        </View>
+        <View style={styles.loginCardStyle}>
+          <Card>
             <CardSection style={styles.buttonCardStyle} >
               <Button onPress={this.handleFormSubmit.bind(this)}>
                 Add Note
@@ -73,7 +80,7 @@ class AddNoteForm extends Component {
           Do you want to cancel ?
           All unsaved data will be lost.
         </Confirm>
-      </View>
+        </View>
     );
   }
 }
@@ -95,6 +102,10 @@ const styles = {
     alignSelf: 'center',
     color: 'red'
   },
+  DescriptionInputStyle: {
+    flex: 1,
+    fontSize: 18
+  },
   loginCardStyle: {
     // flex: 1,
     paddingBottom: 0,
@@ -115,21 +126,16 @@ const styles = {
   },
   inputStyle: {
     color: '#000',
-    paddingRight: 5,
-    paddingLeft: 5,
     fontSize: 18,
-    height: 80,
-    lineHeight: 23,
-    borderBottomColor: '#ccc',
-    flex: 2,
+    borderBottomColor: 'rgba(0,0,0,0)'
   }
 };
 
 
 function mapStateToProps(state) {
-  const { title, category, description } = state.post;
+  const { title, description } = state.post;
   return {
-    title, category, description
+    title, description, pageTitle: "Add New Note"
   };
 }
 

@@ -13,16 +13,17 @@ import {
   PASSWORD_CHANGED,
   USER_LOGGED_IN,
   USER_LOGGED_OUT,
+  AUTH_FIELD_UPDATED,
   FORM_RESET
 } from './types';
 
-export function checkAuth() {
+export function checkAuth(navigate) {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER });
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         dispatch({ type: USER_LOGGED_IN, payload: user });
-        Actions.main();
+        navigate('list');
       } else {
         return logoutUserSuccess(dispatch);
       }
@@ -36,19 +37,14 @@ export function resetForm() {
   };
 }
 
-export function emailChanged(text) {
-  return {
-    type: EMAIL_CHANGED,
-    payload: text
-  };
-}
 
-export function passwordChanged(text) {
+export const inputChanged = ({ prop, value }) => {
   return {
-    type: PASSWORD_CHANGED,
-    payload: text
+    type: AUTH_FIELD_UPDATED,
+    payload: { prop, value }
   };
-}
+};
+
 
 export function loginUser({ email, password }) {
   return (dispatch) => {

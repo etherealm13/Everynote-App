@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { View, ListView, RefreshControl } from 'react-native';
 import ListItem from './listItem';
 import { fetchPosts } from '../actions';
-import { Spinner, AddNoteFab } from './common';
+import { Spinner, AddNoteFab, FullBackground } from './common';
 
 class PostList extends Component {
   state = {
@@ -62,10 +62,14 @@ class PostList extends Component {
 
   render() {
     return (
-      <View style={styles.viewStyle}>
-        {this.renderView()}
-        <AddNoteFab />
-      </View>
+      <FullBackground
+        imageSrc="1"
+      >
+        <View style={styles.viewStyle}>
+          {this.renderView()}
+          <AddNoteFab />
+        </View>
+      </FullBackground>
     );
   }
 }
@@ -73,6 +77,10 @@ class PostList extends Component {
 
 const styles = {
   viewStyle: {
+    flex: 1,
+    marginTop: 50,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    // backgroundColor: 'rgba(255,255,255,0.6)',
     flexGrow: 1
   }
 };
