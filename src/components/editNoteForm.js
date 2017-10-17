@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import { postInputEdited, updateNote, showModal, resetForm } from '../actions/index';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Input, Button, Confirm } from './common';
 
 class EditNoteForm extends Component {
+  state = { showModal: false };
 
-  onTitleChange(value) {
-    this.props.postInputEdited({ prop: 'title', value });
+  componentWillMount(){
   }
 
-  onDescriptionChange(value) {
-    this.props.postInputEdited({ prop: 'description', value });
+  onDecline() {
+    this.setState({ showModal: true });
   }
+  onAccept() {
+    this.setState({ showModal: false });
+  }
+
 
   handleFormSubmit() {
     if (this.props.title !== '' && this.props.description !== '') {
@@ -26,39 +30,56 @@ class EditNoteForm extends Component {
 
   render() {
     return (
-      <View style={styles.bodyStyle}>
-        <View style={styles.loginCardStyle}>
-          <Text style={styles.logoStyle}>EveryNote
-          </Text>
-        </View>
+      <KeyboardAvoidingView behavior={'height'} style={styles.bodyStyle}>
         <View style={styles.loginCardStyle}>
           <Card>
             <CardSection style={styles.titleCardStyle}>
               <Input
-                label="Title"
-                placeholder="Title"
+                placeholder="Enter Title Here"
+                underlineColorAndroid={'transparent'}
                 onChangeText={value => this.props.postInputEdited({ prop: 'title', value })}
                 value={this.props.title}
+                style={styles.inputStyle}
               />
             </CardSection>
 
             <CardSection style={styles.DescriptionCardStyle}>
-              <Input
-                label="Description"
-                placeholder="description"
+              <TextInput
+                style={styles.DescriptionInputStyle}
+                multiline={true}
+                maxHeight={400}
+                autogrow={true}
+                numberOfLines={4}
+                underlineColorAndroid={'transparent'}
+                textAlignVertical={'top'}
+                placeholder="Enter Description Here"
                 onChangeText={value => this.props.postInputEdited({ prop: 'description', value })}
                 value={this.props.description}
               />
             </CardSection>
-
+          </Card>
+        </View>
+        <View style={styles.loginCardStyle}>
+          <Card>
             <CardSection style={styles.buttonCardStyle} >
               <Button onPress={this.handleFormSubmit.bind(this)}>
                 Update Note
               </Button>
+              <Button onPress={() => this.setState({ showModal: true })}>
+                Cancel
+              </Button>
             </CardSection>
           </Card>
         </View>
-      </View>
+        <Confirm
+          visible={this.state.showModal}
+          onAccept={this.onAccept.bind(this)}
+          onDecline={this.onDecline.bind(this)}
+        >
+          Do you want to cancel ?
+          All unsaved data will be lost.
+        </Confirm>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -66,7 +87,7 @@ class EditNoteForm extends Component {
 const styles = {
   bodyStyle: {
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     flex: 1,
     backgroundColor: '#fcfce6'
@@ -79,6 +100,10 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
+  },
+  DescriptionInputStyle: {
+    flex: 1,
+    fontSize: 18
   },
   loginCardStyle: {
     // flex: 1,
@@ -100,13 +125,8 @@ const styles = {
   },
   inputStyle: {
     color: '#000',
-    paddingRight: 5,
-    paddingLeft: 5,
     fontSize: 18,
-    height: 80,
-    lineHeight: 23,
-    borderBottomColor: '#ccc',
-    flex: 2,
+    borderBottomColor: 'rgba(0,0,0,0)'
   }
 };
 

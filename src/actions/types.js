@@ -3,8 +3,7 @@
 //Authentication - login, signup
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
-export const EMAIL_CHANGED = 'EMAIL_CHANGED';
-export const PASSWORD_CHANGED = 'PASSWORD_CHANGED';
+export const AUTH_FIELD_UPDATED = 'AUTH_FIELD_UPDATED';
 export const SIGN_UP_USER = 'SIGN_UP_USER';
 export const SIGN_UP_USER_FAIL = 'SIGN_UP_USER_FAIL';
 export const SIGN_UP_USER_SUCCESS = 'SIGN_UP_USER_SUCCESS';

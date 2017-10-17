@@ -1,23 +1,41 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { Card } from './common';
+import { Text, TouchableOpacity } from 'react-native';
+import moment from 'moment';
+import { Card } from 'react-native-elements';
+// import { Card } from './common';
 
 class ListItem extends Component {
   onRowPress() {
-    Actions.postDetails({ post: this.props.post });
+    this.props.navigation('details', {post: this.props.post});
+  }
+
+  filterDate() {
+    let date = this.props.post.dateStamp;
+    return moment(date).format('h:mm a, Do MMM, YY');
   }
   render() {
-    const { title } = this.props.post;
+    const { title, uid, description } = this.props.post;
     return (
       <TouchableOpacity onPress={this.onRowPress.bind(this)}>
-        <Card style={styles.cardStyle}>
-          <View>
-            <Text style={styles.titleStyle}>
-            {title}
-            </Text>
-          </View>
-        </Card>
+
+      <Card
+        style={styles.cardStyle}
+        key={uid}
+        title={title}
+      >
+        <Text
+          style={styles.titleStyle}
+          numberOfLines={2}
+        >
+        {description}
+        </Text>
+        <Text
+          style={styles.dateStyle}
+          numberOfLines={1}
+        >
+        {this.filterDate()}
+        </Text>
+      </Card>
       </TouchableOpacity>
     );
   }
@@ -26,21 +44,21 @@ class ListItem extends Component {
 const styles = {
   cardStyle: {
     flexDirection: 'row',
-    height: 50,
     backgroundColor: '#fff',
     borderColor: '#ccc',
     borderWidth: 1,
     padding: 15,
-    margin: 15,
-    alignItems: 'center'
+    paddingBottom: 25,
+    margin: 15
   },
   titleStyle: {
     fontSize: 18,
-    padding: 10
+    marginBottom: 10
   },
-  descriptionStyle: {
-    fontSize: 14,
-    padding: 10
+  dateStyle: {
+    fontSize: 12,
+    marginTop: 10,
+    color: '#555'
   }
 };
 export default ListItem;

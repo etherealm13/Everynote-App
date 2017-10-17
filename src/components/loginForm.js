@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
-import { emailChanged, checkAuth, passwordChanged, loginUser } from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { Text, View, Image } from 'react-native';
+import { checkAuth, inputChanged, loginUser } from '../actions';
+import { Card, CardSection, Input, Button, Spinner, FullBackground, Logo } from './common';
 
 class LoginForm extends Component {
   componentWillMount() {
     this.props.checkAuth();
   }
 
-  onEmailChange(text) {
-    this.props.emailChanged(text);
+  onEmailChange(value) {
+    this.props.inputChanged({ prop: 'email', value });
   }
-  onPasswordChange(text) {
-    this.props.passwordChanged(text);
+  onPasswordChange(value) {
+    this.props.inputChanged({ prop: 'password', value });
   }
   onButtonPress() {
     const { email, password } = this.props;
@@ -30,70 +30,76 @@ class LoginForm extends Component {
   }
 
 
-  renderButton() {
+  renderForm() {
     if (this.props.loading) {
-      return < Spinner size="large" />;
+      return (
+          <Spinner size="large" />
+        );
     }
     return (
-      <Button style={styles.customButtonStyle} onPress={this.onButtonPress.bind(this)}>
-        Login
-      </Button>
+      <Card>
+        <CardSection>
+          <Input
+            label="Email"
+            placeholder="xyz@email.com"
+            value={this.props.email}
+            onChangeText={this.onEmailChange.bind(this)}
+          />
+        </CardSection>
+
+        <CardSection>
+          <Input
+            secureTextEntry
+            label="Password"
+            placeholder="******"
+            value={this.props.password}
+            onChangeText={this.onPasswordChange.bind(this)}
+          />
+        </CardSection>
+
+        <CardSection>
+          <Button style={styles.customButtonStyle} onPress={this.onButtonPress.bind(this)}>
+            Login
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button
+          customButtonStyle={styles.customButtonStyle}
+          customTextStyle={styles.customTextStyle}
+          onPress={this.signupHandler.bind(this)}
+          >
+            Create an Account!
+          </Button>
+          <Button
+          customButtonStyle={styles.customButtonStyle}
+          customTextStyle={styles.customTextStyle}
+          onPress={this.forgotPasswordHandler.bind(this)}
+          >
+            Forgot Password ?
+          </Button>
+        </CardSection>
+
+        <Text style={styles.errorTextStyle}>
+          {this.props.error}
+        </Text>
+      </Card>
     );
   }
   render() {
     return (
-      <View style={styles.bodyStyle}>
-        <View style={styles.loginCardStyle}>
-          <Text style={styles.logoStyle}>EveryNote
-          </Text>
-        </View>
-        <View style={styles.loginCardStyle}>
-          <Card>
-            <CardSection>
-              <Input
-                label="Email"
-                placeholder="email@gmail.com"
-                onChangeText={this.onEmailChange.bind(this)}
-                value={this.props.email}
-              />
-            </CardSection>
-
-            <CardSection>
-              <Input
-                secureTextEntry
-                label="Password"
-                placeholder="password"
-                value={this.props.password}
-                onChangeText={this.onPasswordChange.bind(this)}
-              />
-            </CardSection>
-            <CardSection>
-              {this.renderButton()}
-            </CardSection>
-
-            <CardSection>
-              <Button
-              customButtonStyle={styles.customButtonStyle}
-              customTextStyle={styles.customTextStyle}
-              onPress={this.signupHandler.bind(this)}
-              >
-                Signup
-              </Button>
-              <Button
-              customButtonStyle={styles.customButtonStyle}
-              customTextStyle={styles.customTextStyle}
-              onPress={this.forgotPasswordHandler.bind(this)}
-              >
-                Forgot Password ?
-              </Button>
-            </CardSection>
-
-            <Text style={styles.errorTextStyle}>
-              {this.props.error}
-            </Text>
-          </Card>
-        </View>
-      </View>
+        <FullBackground
+          imageSrc="7"
+        >
+          <View style={styles.bodyStyle}>
+            <View style={styles.loginCardStyle}>
+            <Logo />
+            </View>
+            <View style={styles.loginCardStyle}>
+             {this.renderForm()}
+            </View>
+          </View>
+        </FullBackground>
     );
   }
 }
@@ -104,20 +110,22 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    backgroundColor: '#fcfce6'
+    backgroundColor: 'rgba(0,0,0,0.3)'
+    // backgroundColor: 'rgba(255,255,255,0.2)'
   },
   buttonCardStyle: {
     borderBottomWidth: 0,
     padding: 0
   },
-  customButtonStyle: {
-    borderColor: '#fcfce6',
-    borderWidth: 0,
-    backgroundColor: '#fcfce6'
-  },
   customTextStyle: {
     alignSelf: 'center',
-    color: '#009688'
+    color: '#fff'
+  },
+  customButtonStyle: {
+    alignSelf: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderWidth: 0,
+    borderColor: '#fff',
   },
   errorTextStyle: {
     fontSize: 20,
@@ -127,20 +135,15 @@ const styles = {
   loginCardStyle: {
     // flex: 1,
     paddingBottom: 0,
-    backgroundColor: '#fcfce6',
+    // backgroundColor: '#fcfce6',
     padding: 0,
     marginLeft: 5,
     marginRight: 5,
     marginTop: 5,
+    borderWidth: 0,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomWidth: 0
-  },
-  logoStyle: {
-    fontSize: 40,
-    color: '#009688',
-    fontWeight: 'bold'
+    alignItems: 'center'
   }
 };
 
@@ -150,5 +153,8 @@ const mapStateToProps = ({ auth }) => {
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser, checkAuth
+  inputChanged, loginUser, checkAuth
 })(LoginForm);
+
+
+// <Text style={{ marginTop: 40, color: '#fff' }}> Please Wait... </Text>

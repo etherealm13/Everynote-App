@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 // import { Actions } from 'react-native-router-flux';
-import { Card, Button } from './common';
+import { Card, Button, Confirm, FullBackground } from './common';
 import {
   deleteNote,
   editNote,
@@ -15,19 +16,38 @@ import {
 } from '../actions/index';
 
 class PostDetails extends Component {
+  state = { showModal: false };
+  onDecline() {
+    this.setState({ showModal: false });
+  }
+  onAccept() {
+    this.props.deleteNote(this.props.post.uid);
+    this.setState({ showModal: false });
+  }
+
+  filterDate() {
+    let date = this.props.post.dateStamp;
+    return moment(date).format('h:mm a, Do MMM, YY');
+  }
+
+
   render() {
-    const { title, description, uid, dateStamp } = this.props.post;
+    const { title, description, dateStamp } = this.props.post;
     return (
+      <FullBackground
+        imageSrc="1"
+      >
       <ScrollView>
-        <Card style={styles.cardStyle}>
-        <Button
-        style={styles.customButtonStyle}
-        onPress={() => this.props.editNote(this.props.post)}>
-          Edit
-        </Button>
-        <Button onPress={() => this.props.deleteNote(uid)}>
-          Delete
-        </Button>
+        <Card style={styles.customCardStyle}>
+          <Button
+          style={styles.customButtonStyle}
+          onPress={() => this.props.editNote(this.props.post)}
+          >
+            Edit
+          </Button>
+          <Button onPress={() => this.setState({ showModal: true })}>
+            Delete
+          </Button>
         </Card>
         <Card style={styles.cardStyle}>
           <View>
@@ -35,7 +55,7 @@ class PostDetails extends Component {
               {title}
             </Text>
             <Text>
-              {dateStamp}
+              {this.filterDate()}
             </Text>
           </View>
           <View>
@@ -44,15 +64,35 @@ class PostDetails extends Component {
             </Text>
           </View>
         </Card>
+
+        <Confirm
+          visible={this.state.showModal}
+          onAccept={this.onAccept.bind(this)}
+          onDecline={this.onDecline.bind(this)}
+        >
+          Delete this note ?
+        </Confirm>
+
       </ScrollView>
+      </FullBackground>
     );
   }
 }
 
 const styles = {
-  cardStyle: {
-    // flexDirection: 'row',
+  customCardStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     // height: 50,
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 15,
+    margin: 15,
+    marginTop: 50,
+    alignItems: 'center'
+  },
+  cardStyle: {
     backgroundColor: '#fff',
     borderColor: '#ccc',
     borderWidth: 1,

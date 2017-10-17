@@ -6,3 +6,5 @@ export * from './input';
 export * from './spinner';
 export * from './confirm';
 export * from './addNoteFab';
+export * from './fullBackground';
+export * from './logoText';

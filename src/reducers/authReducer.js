@@ -5,8 +5,7 @@ import {
   SIGN_UP_USER,
   SIGN_UP_USER_SUCCESS,
   SIGN_UP_USER_FAIL,
-  EMAIL_CHANGED,
-  PASSWORD_CHANGED,
+  AUTH_FIELD_UPDATED,
   USER_LOGGED_IN,
   USER_LOGGED_OUT,
   LOGOUT_USER_SUCCESS,
@@ -37,10 +36,8 @@ export default (state = INITIAL_STATE, action) => {
         loading: false };
     case SIGN_UP_USER_FAIL:
       return { ...state, authenticated: false, error: action.payload, loading: false };
-    case EMAIL_CHANGED:
-      return { ...state, email: action.payload };
-    case PASSWORD_CHANGED:
-      return { ...state, password: action.payload };
+     case AUTH_FIELD_UPDATED:
+      return { ...state, [action.payload.prop]: action.payload.value };
     case LOGIN_USER:
       return { ...state, loading: true };
     case LOGIN_USER_SUCCESS:
