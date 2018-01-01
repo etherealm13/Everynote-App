@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView, BackHandler, StatusBar } from 'react-native';
 import { postInputChanged, addNote, showModal, resetForm } from '../actions';
 import { Card, CardSection, Input, Button, Confirm } from '../components/common';
 
 class AddPostScreen extends Component {
+  componentWillMount(){
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      this.setState({ showModal: true });
+      return true; // This will prevent the regular handling of the back button
+    });
+  }
+  static navigationOptions = {
+    headerTitle: 'Add New Post',
+    headerTitleStyle: { 
+      alignSelf: 'center'
+    },
+    headerLeft: null
+  }
+
   state = { showModal: false,
             behavior: 'height' 
       // there is three ways to adjust (position , height , padding ) 
   }
 
   onDecline() {
-    this.setState({ showModal: true });
+    this.setState({ showModal: false });
   }
   onAccept() {
     this.setState({ showModal: false });
@@ -29,6 +43,10 @@ class AddPostScreen extends Component {
     return (
     <KeyboardAvoidingView behavior={this.state.behavior} style={styles.bodyStyle}>
         <View style={styles.loginCardStyle}>
+          <StatusBar
+           backgroundColor="#00665c"
+           barStyle="light-content"
+         />
           <Card>
           	<Text>Title</Text>
             <CardSection style={styles.titleCardStyle}>
@@ -88,7 +106,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    backgroundColor: '#fcfce6'
+    backgroundColor: '#EAF5F4'
   },
   buttonCardStyle: {
     borderBottomWidth: 0,
@@ -106,7 +124,7 @@ const styles = {
   loginCardStyle: {
     // flex: 1,
     paddingBottom: 0,
-    backgroundColor: '#fcfce6',
+    backgroundColor: '#EAF5F4',
     padding: 0,
     marginLeft: 5,
     marginRight: 5,

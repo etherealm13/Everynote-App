@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView, BackHandler, StatusBar } from 'react-native';
 import { postInputEdited, updateNote, showModal, resetForm } from '../actions/index';
 import { Card, CardSection, Input, Button, Confirm } from '../components/common';
 
 class EditPostScreen extends Component {
+  componentWillMount(){
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      this.setState({ showModal: true });
+      return true; // This will prevent the regular handling of the back button
+    });
+  }
+
 	static navigationOptions = {
 		headerTitle: 'Edit Post',
 		headerTitleStyle: { 
@@ -15,7 +22,7 @@ class EditPostScreen extends Component {
   state = { showModal: false, behavior: 'height' };
 
   onDecline() {
-    this.setState({ showModal: true });
+    this.setState({ showModal: false });
   }
   onAccept() {
     this.setState({ showModal: false });
@@ -36,6 +43,10 @@ class EditPostScreen extends Component {
     return (
       <KeyboardAvoidingView behavior={this.state.behavior} style={styles.bodyStyle}>
         <View style={styles.loginCardStyle}>
+          <StatusBar
+           backgroundColor="#00665c"
+           barStyle="light-content"
+          />
           <Card>
         	<Text>Title</Text>
             <CardSection style={styles.titleCardStyle}>
@@ -98,7 +109,7 @@ const styles = {
     justifyContent: 'space-around',
     alignItems: 'center',
     flex: 1,
-    backgroundColor: '#fcfce6'
+    backgroundColor: '#EAF5F4'
   },
   buttonCardStyle: {
     borderBottomWidth: 0,
@@ -116,7 +127,7 @@ const styles = {
   loginCardStyle: {
     // flex: 1,
     paddingBottom: 0,
-    backgroundColor: '#fcfce6',
+    backgroundColor: '#EAF5F4',
     padding: 0,
     marginLeft: 5,
     marginRight: 5,
@@ -140,12 +151,12 @@ const styles = {
 
 
 function mapStateToProps(state) {
-  // const { title, category, description, uid } = state.post.postDetail;
+  const { title, category, description, uid } = state.post.postDetail;
   return {
-    title: state.post.postDetail.title,
-    category: state.post.postDetail.category,
-    description: state.post.postDetail.description,
-    uid: state.post.postDetail.uid,
+    title,
+    category,
+    description,
+    uid,
     post: state.post.postDetail
   };
 }

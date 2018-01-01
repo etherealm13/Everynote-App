@@ -4,12 +4,10 @@ import { Text, View, Image } from 'react-native';
 import { checkAuth, inputChanged, loginUser } from '../actions';
 import { Card, CardSection, Input, Button, Spinner, FullBackground, Logo } from '../components/common';
 
-class LoginScreen extends Component {
-  	componentWillMount() {
-    	this.props.checkAuth(this.props.navigation.navigate);
-  	}
-
-
+class LoginScreen extends Component {   
+  // componentWillMount() {
+  // 	this.props.checkAuth(this.props.navigation.navigate);
+  // }
 
   onEmailChange(value) {
     this.props.inputChanged({ prop: 'email', value });
@@ -23,11 +21,9 @@ class LoginScreen extends Component {
   }
   signupHandler() {
   	this.props.navigation.navigate('signup');
-    // this.props.loginUser({ email, password });
   }
   forgotPasswordHandler() {
-    console.log('forgot password');
-    // this.props.loginUser({ email, password });
+    // console.log('forgot password');
   }
 
 
@@ -80,6 +76,17 @@ class LoginScreen extends Component {
             Forgot Password ?
           </Button>
         </CardSection>
+          
+        <CardSection>
+          <Button
+            customButtonStyle={styles.customButtonStyle}
+            customTextStyle={styles.customTextStyle}
+            onPress={() => this.props.navigation.navigate('demo')}
+            >
+              Learn More
+          </Button>
+          
+        </CardSection>
 
         <Text style={styles.errorTextStyle}>
           {this.props.error}
@@ -90,7 +97,7 @@ class LoginScreen extends Component {
   render() {
     return (
         <FullBackground
-          imageSrc="7"
+          imageSrc="3"
         >
           <View style={styles.bodyStyle}>
             <View style={styles.loginCardStyle}>

@@ -14,7 +14,7 @@ const styles = {
     padding: 10,
     // backgroundColor: '#fff',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
     marginBottom: 10
   }
 };

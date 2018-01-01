@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import { Actions } from 'react-native-router-flux';
 import {
   LOGIN_USER,
   LOGIN_USER_SUCCESS,
@@ -57,7 +56,7 @@ export function loginUser({ email, password }) {
   };
 }
 
-export function signUpUser(email, password) {
+export function signup(email, password) {
   return (dispatch) => {
     dispatch({ type: SIGN_UP_USER });
     return firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -87,7 +86,6 @@ export function loginUserSuccess(dispatch, user) {
     type: LOGIN_USER_SUCCESS,
     payload: user
   });
-  Actions.main();
 }
 
 
@@ -98,10 +96,11 @@ export function loginUserFail(dispatch, error) {
   });
 }
 
-export function logoutUser() {
+export function logoutUser(navigation) {
   return (dispatch) => {
     firebase.auth().signOut()
     .then(() => {
+      navigation.navigate('auth');
       return logoutUserSuccess(dispatch);
     })
     .catch((error) => {
@@ -115,7 +114,6 @@ export function logoutUserSuccess(dispatch) {
   dispatch({
     type: LOGOUT_USER_SUCCESS
   });
-  Actions.auth();
 }
 
 
