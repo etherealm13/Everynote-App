@@ -32,7 +32,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state,
         ...INITIAL_STATE,
         user: action.payload,
-        authenticated: true,
+        authenticated: false,
         loading: false };
     case SIGN_UP_USER_FAIL:
       return { ...state, authenticated: false, error: action.payload, loading: false };

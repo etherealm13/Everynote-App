@@ -1,41 +1,79 @@
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
-// import _ from 'lodash';
-import Slides from '../components/common/slides';
+import { View, Text, StatusBar } from 'react-native';
+import { connect } from 'react-redux';
+import { Slides, Spinner, Logo } from '../components/common';
+import { checkAuth } from '../actions';
+
 
 const SLIDE_DATA = [
-	{ id: 1, text: 'Welcome to EveryNote', color: '#03a9f4' },
-	{ id: 2, text: 'Simple Way to Store Notes', color: '#009688' }
+	{ 
+		id: 1, 
+		text: 'Welcome to EveryNote', 
+		subText: 'Store Notes', 
+		color: '#03a9f4'
+	},
+	{ 
+		id: 2, 
+		text: 'Problem Remembering things ?', 
+		subText: 'With our App, you can Store, Edit and Manage Notes.', 
+		color: '#009688'
+	}
+	// { 
+	// 	id: 3, 
+	// 	text: 'Increase Productivity !', 
+	// 	subText: 'Using The Todo List', 
+	// 	color: '#F78C6A'
+	// }
 ];
 
 class WelcomeScreen extends Component {
-	state = { token: null }
-
-	async componentWillMount() {
-		let token = await AsyncStorage.getItem('auth_token');
-
-		if (token) {
-			this.props.navigation.navigate('auth');
-			this.setState({ token });
-		} else {
-			this.setState({ token: false });
-		}
+	componentWillMount() {
+	  	this.props.checkAuth(this.props.navigation.navigate);
 	}
-
 	onSlidesComplete() {
-		this.props.navigation.navigate('auth');
+      this.props.navigation.navigate('auth');
 	}
 
 	render() {
-		// if  (_.isNull(this.state.token)) {
-		// 	 return <AppLoading />
-		// }
+		if (this.props.loading) {
+	      	return (
+	          	<View style={styles.loginCardStyle}>
+		      		<StatusBar
+				       backgroundColor='#00665c'
+				       barStyle="light-content"
+				      />
+		            <Logo customTextStyle={styles.textStyle} />
+	            </View>
+	        );
+	    }
 		return (
-			<View style= { {flex: 1} }>
+			<View style= {{ flex: 1 }}>
 				<Slides data={SLIDE_DATA} onComplete={this.onSlidesComplete.bind(this)} />
 			</View>
 		);
 	}
 }
 
-export default WelcomeScreen;
+const styles = {
+	loginCardStyle: {
+	    paddingBottom: 0,
+	    backgroundColor: '#009688',
+	    padding: 0,
+	    flex: 1,
+	    borderWidth: 0,
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center'
+  	},
+  	textStyle: {
+  		color: '#fff'
+  	}
+}
+
+
+const mapStateToProps = ({ auth }) => {
+  const { loading, authentication } = auth;
+  return { loading, authentication };
+};
+
+export default connect(mapStateToProps, {checkAuth})(WelcomeScreen);

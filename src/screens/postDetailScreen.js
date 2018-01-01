@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { BackHandler, View, Text, ScrollView } from 'react-native';
+import { BackHandler, View, Text, Button, ScrollView, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Card, Button, Confirm, FullBackground } from '../components/common';
+import { Card, CustomButton, Confirm, FullBackground } from '../components/common';
 import {
   deleteNote,
   editNote,
@@ -15,22 +15,53 @@ import {
 } from '../actions/index';
 
 class PostDetailScreen extends Component {
-	static navigationOptions = {
-		headerTitle: 'View Post',
-		headerTitleStyle: { 
-			alignSelf: 'center'
-		},
-		headerLeft: null
-	}
 
-	componentWillMount() {
-	    BackHandler.addEventListener('hardwareBackPress', () => {
-            this.props.navigation.navigate('list');
-            return true; // This will prevent the regular handling of the back button
-	    });
-	}
+  componentWillMount(){
+    
+    this.props.navigation.setParams({
+      home: () => this.homeLink()
+    });
+    
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('list');
+      return true; // This will prevent the regular handling of the back button
+    });
+  }
+
+  componentDidMount(){
+    this.props.navigation.setParams({
+      home: () => this.homeLink()
+    });
+    
+  }
+
+  homeLink(){
+    this.props.navigation.navigate('list');
+  }
+
+	static navigationOptions = ({ navigation }) => {
+    const {params} = navigation.state;
+
+    return { 
+      headerTitle: 'View Post',
+      headerTitleStyle: { 
+        alignSelf: 'center',
+        marginLeft: 60
+      },
+      headerLeft: null,
+      headerRight: (
+        <Button
+          color='rgba(255,255,255,0.1)'
+          title='home'
+          onPress={() => params.home && params.home()}
+        />
+      )
+      // headerTintColor: 'blue'
+    }
+  }
 
   state = { showModal: false };
+  
   onDecline() {
     this.setState({ showModal: false });
   }
@@ -48,20 +79,22 @@ class PostDetailScreen extends Component {
   render() {
     const { title, description, dateStamp } = this.props.post;
     return (
-      <FullBackground
-        imageSrc="1"
-      >
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: '#EAF5F4' }}>
+        <StatusBar
+         backgroundColor="#00665c"
+         barStyle="light-content"
+       />
         <Card style={styles.customCardStyle}>
-          <Button
-          style={styles.customButtonStyle}
+          <CustomButton
+          customButtonStyle={styles.customButtonStyle}
           onPress={() => this.props.editNote(this.props.post, this.props.navigation.navigate)}
           >
             Edit
-          </Button>
-          <Button onPress={() => this.setState({ showModal: true })}>
+          </CustomButton>
+          <CustomButton customButtonStyle={styles.customButtonStyle} 
+          onPress={() => this.setState({ showModal: true })}>
             Delete
-          </Button>
+          </CustomButton>
         </Card>
         <Card style={styles.cardStyle}>
           <View>
@@ -88,7 +121,6 @@ class PostDetailScreen extends Component {
         </Confirm>
 
       </ScrollView>
-      </FullBackground>
     );
   }
 }
@@ -96,36 +128,41 @@ class PostDetailScreen extends Component {
 const styles = {
   customCardStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#fff',
-    borderColor: '#ccc',
-    borderWidth: 1,
-    padding: 15,
-    margin: 15,
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    // backgroundColor: '#fff',
+    // borderColor: '#ccc',
+    // borderWidth: 1,
+    padding: 10,
+    margin: 10,
+    marginTop: 5,
+    marginBottom: 5
+    // alignItems: 'center'
   },
   cardStyle: {
-    backgroundColor: '#fff',
-    borderColor: '#ccc',
+    backgroundColor: '#EAF5F4',
+    borderColor: '#eee',
     borderWidth: 1,
     padding: 15,
+    paddingTop: 5,
     margin: 15,
-    alignItems: 'center'
+    marginTop: 5
+    // alignItems: 'center'
   },
   titleStyle: {
+    alignSelf: 'center',
     fontSize: 20,
     padding: 10
   },
   descriptionStyle: {
     alignItems: 'flex-start',
     fontSize: 16,
-    padding: 10,
+    // padding: 10,
     lineHeight: 30,
     color: '#343535'
   },
   customButtonStyle: {
-    borderBottomWidth: 0,
-    backgroundColor: '#eee'
+    padding: 10,
+    width: 80
   }
 };
 

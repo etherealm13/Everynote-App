@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Dimensions, TouchableOpacity, StatusBar } from 'react-native';
 import { Button } from './button';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-class Slides extends Component {
-  renderLastSlide(index) {
+export class Slides extends Component {
+  
+  renderLastSlide(index, slide) {
+    const buttonText = (slide.buttonText ? slide.buttonText : 'Let\'s Get Started!');
     if(index === this.props.data.length - 1) {
       return (
         <TouchableOpacity
           onPress={this.props.onComplete}
           style={styles.buttonStyle}
         >
-          <Text style={styles.textStyle}>
-          I'm Ready !
+          <Text style={styles.buttonTextStyle}>
+          {buttonText}
           </Text>
         </TouchableOpacity>
       );
+    }
+    else{
+      return (
+        <Text style={styles.nextTextStyle}>
+          Swipe left to View Next.
+        </Text>
+      )
     }
   }
 
@@ -27,10 +36,13 @@ class Slides extends Component {
             style={[ styles.slideStyle, { backgroundColor: slide.color } ]}
             key={slide.id}
           >
-            <Text style={styles.slideTextStyle}>
+            <Text style={[styles.slideTextStyle, slide.textStyle]}>
               {slide.text}
             </Text>
-            {this.renderLastSlide(index)}
+            <Text style={[styles.slideSubTextStyle, slide.subTextStyle]}>
+              {slide.subText}
+            </Text>
+            {this.renderLastSlide(index, slide)}
           </View>
         )
     })
@@ -43,6 +55,10 @@ class Slides extends Component {
         pagingEnabled
         style={{ flex: 1 }}
       >
+      <StatusBar
+       backgroundColor='#433434'
+       barStyle="light-content"
+      />
       {this.renderSlides()}
       </ScrollView>
     );
@@ -59,20 +75,35 @@ const styles = {
   slideTextStyle: {
     // color: '#343433',
     color: '#fff',
-    fontSize: 30,
+    padding: 10,
+    paddingBottom: 5,
+    fontSize: 25,
     alignItems: 'center'
   },
-  textStyle: {
-    alignSelf: 'center',
+  slideSubTextStyle: {
+    // color: '#343433',
     color: '#fff',
+    padding: 15,
+    paddingTop: 5,
+    fontSize: 18,
+    alignItems: 'center'
+  },
+  nextTextStyle: {
+    color: '#eee',
+    padding: 20,
+    fontSize: 14,
+    alignSelf: 'center'
+  },
+  buttonTextStyle: {
+    alignSelf: 'center',
+    color: '#009688',
     fontSize: 16,
-    fontWeight: '600',
-    paddingTop: 10,
-    paddingBottom: 10
+    fontWeight: '600'
   },
   buttonStyle: {
     alignSelf: 'center',
-    backgroundColor: '#009688',
+    padding: 10,
+    backgroundColor: '#fff',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#999',
@@ -80,5 +111,3 @@ const styles = {
     marginRight: 0
   }
 };
-
-export default Slides;
